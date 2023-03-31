@@ -4,22 +4,23 @@ from util.haversine import haversine
 import random
 
 def rand_select(a, l, r, i):
-    if l==r:
-        return a[l]
-    z = rand_partition(a, l, r)
-    k = z - l
+    if l == r:
+            return a[l]
+    if l < r:
+        z = rand_partition(a, l, r)
+        k = z - l
 
-    if i==k:
-        return a[z]
-    elif i < k:
-        return rand_select(a, l, z-1, i)
-    else:
-        return rand_select(a, z+1, r, i-k)
+        if i==k:
+            return a[z]
+        elif i < k:
+            return rand_select(a, l, z-1, i)
+        else:
+            return rand_select(a, z+1, r, i-k-1)
 
 def rand_partition(a, l, r):
-    k = random.randrange(l, r)
+    k = random.randrange(l, r+1)
     (a[k], a[l]) = (a[l], a[k])
-    x=a[l]
+    x = a[l]
     i = l
     for j in range(l+1, r+1):
         if a[j] <= x:
