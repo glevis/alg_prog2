@@ -17,11 +17,7 @@ def rand_select(a, l, r, i):
         return rand_select(a, z+1, r, i-k)
 
 def rand_partition(a, l, r):
-    k = -1;
-    if l==r:
-       k = l 
-    else:
-       k = random.randint(l, r)
+    k = random.randrange(l, r)
     (a[k], a[l]) = (a[l], a[k])
     x=a[l]
     i = l
@@ -58,14 +54,16 @@ def main():
             wb_distances.append(distance)
 
         # compute order statistics
-        i = 29 
+        i = int(q.stores) - 1
         rand_select(wb_distances, 0, len(wb_distances) - 1, i) 
         # sort first x stores in increasing order (any O(n^2))
         sorted = wb_distances[0:int(q.stores)]
         sort(sorted)
+        count = 1
         for i in sorted:
             if count <= int(q.stores):
                 print(i)
+            count = count + 1
         # output stores from closest to farthest
         # format: [store] #[id]. [addr] [street], [city], [state], [zip]. - [distance] miles
 
