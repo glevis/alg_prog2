@@ -48,3 +48,7 @@ class Store:
         self.zip = zip
         self.lat = lat
         self.long = long
+        self.distance = 0
+
+    def setDistance(self, dist):
+        self.distance = dist
