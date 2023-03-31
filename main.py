@@ -2,6 +2,7 @@ from util.util import QueryParser, StoreParser
 from random import randrange
 from util.haversine import haversine
 import random
+import sys
 
 def rand_select(a, l, r, i):
     if l == r:
@@ -42,10 +43,8 @@ def sort(a):
 def main():
     qp = QueryParser()
     wb = StoreParser()
-    sb = StoreParser()
     qp.parse("tests/Queries.csv")
-    wb.parse("tests/whataburger/WhataburgerData.csv")
-    sb.parse("tests/starbucks/StarbucksData.csv")
+    wb.parse(sys.argv[1])
 
     for q in qp.queries:
         wb_distances = []
@@ -63,29 +62,6 @@ def main():
         sorted = wb_distances[0:int(q.stores)]
         sort(sorted)
         count = 1
-        # output stores from closest to farthest
-        # format: [store] #[id]. [addr] [street], [city], [state], [zip]. - [distance] miles
-        for store in sorted:
-            if count <= int(q.stores):
-                print(f"Store #{store.id}. {store.addr}, {store.city}, {store.state}, {store.zip}. - {round(store.distance, 2)} miles.")
-            count = count + 1
-
-    for q in qp.queries:
-        sb_distances = []
-        print(f"\nThe {q.stores} closest Starbucks to ({q.point.x}, {q.point.y})")
-        for store in sb.stores:
-            distance = haversine(q.point.x, q.point.y, store.lat, store.long)
-            store.setDistance(distance)
-            sb_distances.append(store)
-
-        # compute order statistics
-        i = int(q.stores) - 1
-        rand_select(sb_distances, 0, len(sb_distances) - 1, i)
-        # sort first X stores in increasing order
-        sorted = sb_distances[0:int(q.stores)]
-        sort(sorted)
-        count = 1
-
         # output stores from closest to farthest
         # format: [store] #[id]. [addr] [street], [city], [state], [zip]. - [distance] miles
         for store in sorted:
