@@ -1,5 +1,5 @@
-import math
 from util.util import QueryParser, StoreParser
+from random import randrange
 from util.haversine import haversine
 
 def main():
@@ -18,19 +18,10 @@ def main():
             distances.append(distance)
             # compute order statistics
             
-            radiusOfEarth = '3958.8'# miles
-            
-            #convert lat/long to radians
-            lat1 = math.radians(q.point.x)
-            lon1 = math.radians(q.point.y)
-            lat2 = math.radians(store.lat)
-            lon2 = math.radians(store.long)
-            
-            #then apply harvesine formula
-            a = math.sin((lat2 - lat1)/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1)/2)**2
-            c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-            distance = radiusOfEarth * c
-            
+            #find the furthest store that we care about within the query
+
+
+
             # sort first 30 stores in increasing order (any O(n^2))
             
             # output stores from closest to farthest
